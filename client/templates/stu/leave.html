@@ -18,13 +18,13 @@
     <br />
     <br />
     <p>Enter reason for Leave request</p>
-    <input type="text" />
+    <input type="text" id="leaveType" name="leaveType"/>
     <p>Enter the date</p>
-    <input type="date" />
+    <input type="date" id="leaveDate" name="leaveDate"/>
     <p>Enter the time</p>
-    <input type="time" />
+    <input type="time" id="leaveTime" name="leaveTime"/>
     <p>Enter leaveDuration</p>
-    <input type="text" />
+    <input type="text" id="leaveDuration" name="leaveDuration"/>
     <br><br>
     <button type="submit">Register</button>
     <br><br>
@@ -40,7 +40,7 @@
       </tr>
     </table>
     <script>
-      const leaveForm = document.getElementById("register-form");
+      const leaveForm = document.getElementById("leave-form");
 
         leaveForm.addEventListener("submit", async (event) => {
           event.preventDefault();
