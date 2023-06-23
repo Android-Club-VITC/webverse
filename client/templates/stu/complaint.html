@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Complaints</title>
+  </head>
+
+  <body>
+    <script>
+      // Get the container element where the navbar component will be placed
+      const navbarContainer = document.getElementById("navbar-container");
+
+      // Fetch and insert the navbar component HTML
+      fetch("./nav.html")
+        .then((response) => response.text())
+        .then((html) => {
+          navbarContainer.innerHTML = html;
+        })
+        .catch((error) => {
+          console.error("Error fetching navbar component:", error);
+        });
+    </script>
+
+    <h1>Previous Complaints</h1>
+    <ul>
+      Complaint 1
+    </ul>
+    <ul>
+      Complaint 2
+    </ul>
+    <ul>
+      Complaint 3
+    </ul>
+    <h1>Add Complaints</h1>
+    <form>
+      <label> Complaint Type: </label>
+      <input type="text" id="ComplaintType" name="ComplaintType" /><br /><br />
+      <label> Complaint Date: </label>
+      <input type="text" id="ComplaintDate" name="ComplaintType" /><br /><br />
+      <label> Complaint Description: </label>
+      <input
+        type="text"
+        id="ComplaintDescription"
+        name="ComplaintType"
+      /><br /><br />
+      <label> Complaint Severity:</label>
+      <input
+        type="text"
+        id="ComplaintSeverity"
+        name="ComplaintType"
+      /><br /><br />
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>

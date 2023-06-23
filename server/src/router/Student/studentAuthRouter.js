@@ -17,7 +17,6 @@ const studentAuthRouter = Router();
 // Error: { message, error }
 studentAuthRouter.post("/register", async (req, res) => {
   const { name, regNo, block, password, roomNo } = req.body;
-
   try {
     const validStudent = studentAuthRegisterSchema.parse({
       name,

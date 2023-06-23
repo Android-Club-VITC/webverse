@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Login</h1>
+    <form id="login-form" method="POST">
+      <label for="block">block:</label>
+      <select id="block" name="block">
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+      </select>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" /><br /><br />
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+  <script>
+    const loginForm = document.getElementById("login-form");
+
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(loginForm);
+      const block = formData.get("block");
+      const password = formData.get("password");
+      const response = await fetch(
+        "http://localhost:8000/api/v1/warden/auth/login",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            block: block,
+            password: password,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("token", data.token);
+        window.location.href = "./dashboard.html";
+      } else {
+        const error = await response.json();
+        alert(error.message);
+      }
+    });
+  </script>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Leave Requests</title>
+    <script></script>
+  </head>
+  <body>
+    <h1>Leave Requests</h1>
+    <form id="leave-form" method="post">
+      <p>Enter type of leave request</p>
+      <select>
+        <option value="Outing">Outing</option>
+        <option value="Parent Leave">Parent Leave</option>
+        <option value="Medical Leave">Medical Leave</option>
+      </select>
+      <br />
+      <br />
+      <p>Enter reason for Leave request</p>
+      <input type="text" />
+      <p>Enter the date</p>
+      <input type="date" />
+      <p>Enter the time</p>
+      <input type="time" />
+      <p>Enter leaveDuration</p>
+      <input type="text" />
+      <br /><br />
+      <button type="submit">Register</button>
+      <br /><br />
+    </form>
+    <table border="Black">
+      <tr>
+        <td>Leave ID</td>
+        <td>Type of leave request</td>
+        <td>Reason for leave</td>
+        <td>Date of leaving</td>
+        <td>Date of return</td>
+        <td>Delete Request</td>
+      </tr>
+    </table>
+    <script>
+      const leaveForm = document.getElementById("register-form");
+
+      leaveForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(leaveForm);
+
+        const leaveType = formData.get("leaveType");
+        const leaveDate = formData.get("leaveDate");
+        const leaveTime = formData.get("leaveTime");
+        const leaveDuration = formData.get("leaveDuration");
+
+        const resp = await fetch(
+          "http://localhost:8000/api/v1/student/leave/",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              leaveType: leaveType,
+              leaveDate: leaveDate,
+              leaveTime: leaveTime,
+              leaveDuration: leaveDuration,
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          }
+        );
+        console.log(resp);
+        if (resp.status == 200) alert("Successfully Registered");
+        else alert("Error Occured");
+      });
+    </script>
+  </body>
+</html>
