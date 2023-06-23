@@ -10,17 +10,13 @@
       <p>Your current room:</p>
       <p>Room type: <p id="room-type"></p></p>
       <p>Block: <p id="block"></p></p>
-      <p>Room number: {{roomnumber}}</p>
-      <p>Mess type: {{}}</p>
+      <p>Room number: <p id="roomNo"></p></p>
+      <p>Mess type: <p id="mess"></p></p>
     </div>
     <div>
-      <p>Change room:</p>
-      <input type="text" placeholder="Room type" v-model="roomtype" />
-      <input type="text" placeholder="Room number" v-model="roomnumber" />
-      <button @click="changeRoom">Change room</button>
       <p>Change mess:</p>
-      <input type="text" placeholder="Mess type" v-model="messtype" />
-      <button @click="changeMess">Change mess</button>
+      <input type="text" placeholder="Mess type" id="messtype" />
+      <button onclick="changeMess()">Change mess</button>
     </div>
   </body>
   <script>
@@ -31,7 +27,36 @@ async function getData() {
   }})
   const data =await resp.json()
   document.getElementById("block").innerText = data.data.block
+  document.getElementById("room-type").innerText = data.data.roomType
+  document.getElementById("roomNo").innerText = data.data.roomNo
+  document.getElementById("mess").innerText = data.data.messType
 }
 getData()
+
+async function changeMess() {
+  const token = localStorage.getItem("token")
+  if (!token) {
+    alert("Authentication token missing!");
+    return;
+  }
+
+  const mess = document.getElementById("messtype").value
+  const resp = await fetch("http://localhost:8000/api/v1/student/mess-details/", {
+    method: "PUT",
+          body: JSON.stringify({
+            messType: mess,
+          }),
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await resp.json();
+        if (data.ok) {
+          alert("Mess changed successfully!");
+        } else {
+          alert("Mess change failed!");
+        }
+      }
   </script>
 </html>
