@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <p>Your current room:</p>
+      <p>Room type: {{roomtype}}</p>
+      <p>Room number: {{roomnumber}}</p>
+      <p>Mess type: {{}}</p>
+    </div>
+    <div>
+      <p>Change room:</p>
+      <input type="text" placeholder="Room type" v-model="roomtype" />
+      <input type="text" placeholder="Room number" v-model="roomnumber" />
+      <button @click="changeRoom">Change room</button>
+      <p>Change mess:</p>
+      <input type="text" placeholder="Mess type" v-model="messtype" />
+      <button @click="changeMess">Change mess</button>
+    </div>
+  </body>
+</html>
