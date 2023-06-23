@@ -7,5 +7,64 @@
   </head>
   <body>
     <p>View room requests:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Block</th>
+          <th>Room No</th>
+          <th>Room Type</th>
+          <th>Room Capacity</th>
+          <th>Students</th>
+          <th>Is Full?</th>
+        </tr>
+      </thead>
+      <tbody id="room-request"></tbody>
+    </table>
+    <script>
+      async function fetchRoomDetails() {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          "http://localhost:8000/api/v1/warden/room-details/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        return data;
+      }
+
+      async function displayRoomRequests() {
+        const roomDetails = await fetchRoomDetails();
+        const tbody = document.getElementById("room-requests");
+        if (Array.isArray(roomDetails)) {
+          for (const room of roomDetails) {
+            console.log(room);
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+          <td>${room.block}</td>
+          <td>${room.roomNo}</td>
+          <td>${room.roomType}</td>
+          <td>${room.roomCapacity}</td>
+          <td>${
+            Array.isArray(room.students) ? room.students.join(", ") : ""
+          }</td>
+          <td>${room.isFull ? "Yes" : "No"}</td>
+        `;
+            tbody.appendChild(tr);
+          }
+        } else {
+          console.error("Room details not found.");
+        }
+      }
+
+      const token = localStorage.getItem("token");
+      if (token) {
+        displayRoomRequests();
+      } else {
+        console.error("Authentication token not found.");
+      }
+    </script>
   </body>
 </html>
