@@ -9,10 +9,43 @@
     <h1>Login</h1>
     <form>
       <label for="ID">ID:</label>
-      <input type="text" id="username" name="username" /><br /><br />
+      <input type="text" id="empId" name="empId" /><br /><br />
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" /><br /><br />
       <input type="submit" value="Submit" />
     </form>
   </body>
+  <script>
+    const loginForm = document.getElementById("login-form");
+
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(loginForm);
+      const empId = formData.get("empId");
+      const password = formData.get("password");
+      const response = await fetch(
+        "http://localhost:8000/api/v1/faculty/auth/login",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            empId: empId,
+            password: password,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("token", data.token);
+        window.location.href = "./Event.html";
+      } else {
+        const error = await response.json();
+        alert(error.message);
+      }
+    });
+  </script>
 </html>
