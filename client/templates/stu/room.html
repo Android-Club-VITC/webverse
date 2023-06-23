@@ -8,7 +8,8 @@
   <body>
     <div>
       <p>Your current room:</p>
-      <p>Room type: {{roomtype}}</p>
+      <p>Room type: <p id="room-type"></p></p>
+      <p>Block: <p id="block"></p></p>
       <p>Room number: {{roomnumber}}</p>
       <p>Mess type: {{}}</p>
     </div>
@@ -22,4 +23,15 @@
       <button @click="changeMess">Change mess</button>
     </div>
   </body>
+  <script>
+async function getData() {
+  const token = localStorage.getItem("token")
+  const resp = await fetch("http://localhost:8000/api/v1/student/me", {headers: {
+    Authorization: `Bearer ${token}`
+  }})
+  const data =await resp.json()
+  document.getElementById("block").innerText = data.data.block
+}
+getData()
+  </script>
 </html>
