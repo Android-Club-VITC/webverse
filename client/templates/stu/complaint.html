@@ -15,7 +15,8 @@
       fetch("./nav.html")
         .then((response) => response.text())
         .then((html) => {
-          navbarContainer.innerHTML = html;})
+          navbarContainer.innerHTML = html;
+        })
         .catch((error) => {
           console.error("Error fetching navbar component:", error);
         });
@@ -51,6 +52,5 @@
       /><br /><br />
       <input type="submit" value="Submit" />
     </form>
-    <a href="./stu-reg.html">Register</a>
   </body>
 </html>

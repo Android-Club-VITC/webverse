@@ -7,5 +7,63 @@
   </head>
   <body>
     <p>View leave request:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Regno</th>
+          <th>Leave Type</th>
+          <th>Leave Date</th>
+          <th>Leave Time</th>
+          <th>Leave Duration</th>
+        </tr>
+      </thead>
+      <tbody id="leave-request"></tbody>
+    </table>
+    <script>
+      async function fetchleaveDetails() {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          "http://localhost:8000/api/v1/warden/leave",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        return data;
+      }
+
+      async function displayleaveRequests() {
+        const leaveDetails = await fetchleaveDetails();
+        const tbody = document.getElementById("leave-requests");
+        if (Array.isArray(leaveDetails)) {
+          for (const leave of leaveDetails) {
+            console.log(leave);
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+          <td>${leave.student.name}</td>
+          <td>${leave.student.regno}</td>
+          <td>${leave.leaveType}</td>
+          <td>${leave.leaveDate}</td>
+          <td>${leave.leaveTime}</td>
+          <td>${leave.leaveDuration}</td>
+
+          <td>${leave.isFull ? "Yes" : "No"}</td>`;
+            tbody.appendChild(tr);
+          }
+        } else {
+          console.error("No leave details found.");
+        }
+      }
+
+      const token = localStorage.getItem("token");
+      if (token) {
+        displayleaveRequests();
+      } else {
+        console.error("Authentication token not found.");
+      }
+    </script>
   </body>
 </html>
