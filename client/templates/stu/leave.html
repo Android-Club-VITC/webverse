@@ -8,7 +8,7 @@
   </head>
   <body>
     <h1>Leave Requests</h1>
-
+    <form id="leave-form" method="post">
     <p>Enter type of leave request</p>
     <select>
       <option value="Outing">Outing</option>
@@ -19,10 +19,16 @@
     <br />
     <p>Enter reason for Leave request</p>
     <input type="text" />
-    <p>Enter the date of leaving</p>
+    <p>Enter the date</p>
     <input type="date" />
-    <p>Enter the date of return</p>
-    <input type="date" />
+    <p>Enter the time</p>
+    <input type="time" />
+    <p>Enter leaveDuration</p>
+    <input type="text" />
+    <br><br>
+    <button type="submit">Register</button>
+    <br><br>
+    </form>
     <table border="Black">
       <tr>
         <td>Leave ID</td>
@@ -33,5 +39,38 @@
         <td>Delete Request</td>
       </tr>
     </table>
+    <script>
+      const leaveForm = document.getElementById("register-form");
+
+        leaveForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          const formData = new FormData(leaveForm);
+
+          const leaveType = formData.get("leaveType");
+          const leaveDate = formData.get("leaveDate");
+          const leaveTime = formData.get("leaveTime");
+          const leaveDuration = formData.get("leaveDuration");
+
+          const resp = await fetch(
+            "http://localhost:8000/api/v1/student/leave/",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              leaveType: leaveType,
+              leaveDate: leaveDate,
+              leaveTime: leaveTime,
+              leaveDuration: leaveDuration,
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          }
+        );
+        console.log(resp);
+        if (resp.status == 200) alert("Successfully Registered");
+        else alert("Error Occured");
+      });
+    </script>
   </body>
 </html>

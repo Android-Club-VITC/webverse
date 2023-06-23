@@ -9,7 +9,7 @@
 
 <body>
     <h1>Post Event</h1>
-    <form>
+    <form id="PostEvent-form" method="POST">
         
         <label>Event Name</label>
         <input type="text" id="" name=""><br><br>
@@ -41,5 +41,48 @@
     </form>
     <a href="./stu-reg.html">Register</a>
 </body>
+
+<script>
+    const PostForm = document.getElementById("PostEvent-form");
+
+    PostForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new PostData(PostForm);
+        const eventName = formData.get("eventName");
+        const eventDescription = formData.get("eventDescription");
+        const eventDate = formData.get("eventDate");
+        const eventTime = formData.get("eventTime");
+        const eventVenue = formData.get("eventVenue");
+        const eventOrganiser = formData.get("eventOrganiser");
+        const participantCount = formData.get("participantCount");
+        const hostedBy = formData.get("hostedBy");
+        const eventPoster = formData.get("eventPoster");
+
+        const resp = await fetch(
+            "http://localhost:8000/api/v1/student/event/",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    eventName: eventName,
+                    eventDescription: eventDescription,
+                    eventDate: eventDate,
+                    eventTime: eventTime,
+                    eventVenue: eventVenue,
+                    eventOrganiser: eventOrganiser,
+                    participantCount: participantCount,
+                    hostedBy: hostedBy,
+                    eventPoster: eventPoster,
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+            }
+        );
+        console.log(resp);
+        if (resp.status == 200) alert("Successfully Registered");
+        else alert("Error Occured");
+    });
+</script>
 
 </html>
